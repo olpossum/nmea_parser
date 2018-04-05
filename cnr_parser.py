@@ -3,6 +3,7 @@ import os
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import datetime
+import numpy as np
 
 fpath = input("enter file path: ")
 fpath = os.path.normpath(fpath)
@@ -52,6 +53,9 @@ for line in filein:
 
 df_VTG = pd.DataFrame(list_of_dicts,columns=['datetime','sat_id','CNR'])
 df_VTG['datetime'] = pd.to_datetime(df_VTG['datetime'])
+df_VTG.replace('',np.nan,inplace=True)
+df_VTG = df_VTG.dropna(how='any')
+df_VTG['CNR'] = df_VTG['CNR'].str.strip('\n').astype('int')
 
 print(df_VTG)
 sat_groups = df_VTG.groupby('sat_id')
@@ -63,11 +67,11 @@ for name,group in sat_groups:
     print(group)
     print(name)
     if style_counter <= 6:
-        ax.plot_date(group['datetime'],group['CNR'],'-',label=name)
+        ax.plot_date(group['datetime'],group['CNR'],'o',fillstyle='none',label=name)
     elif style_counter > 6 and style_counter <=13:
-        ax.plot_date(group['datetime'],group['CNR'],'--',label=name)
+        ax.plot_date(group['datetime'],group['CNR'],'s',fillstyle='none',label=name)
     elif style_counter > 13:
-        ax.plot_date(group['datetime'],group['CNR'],':',label=name)
+        ax.plot_date(group['datetime'],group['CNR'],'^',fillstyle='none',label=name)
     style_counter += 1
         
 
