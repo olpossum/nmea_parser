@@ -57,7 +57,7 @@ df_VTG.replace('',np.nan,inplace=True)
 df_VTG = df_VTG.dropna(how='any')
 df_VTG['CNR'] = df_VTG['CNR'].str.strip('\n').astype('int')
 
-print(df_VTG)
+#print(df_VTG)
 sat_groups = df_VTG.groupby('sat_id')
 
 fig,ax = plt.subplots()
